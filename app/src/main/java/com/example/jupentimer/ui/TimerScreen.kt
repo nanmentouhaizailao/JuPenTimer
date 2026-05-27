@@ -85,7 +85,7 @@ fun TimerScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = timerState.getStateName(),
-                        fontSize = 24.sp,
+                        fontSize = 36.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )
@@ -93,7 +93,7 @@ fun TimerScreen(
                     if (timerState is TimerState.Working || timerState is TimerState.Resting) {
                         Text(
                             text = "第 ${timerState.round} 轮",
-                            fontSize = 18.sp,
+                            fontSize = 28.sp,
                             color = Color.White.copy(alpha = 0.8f),
                             modifier = Modifier.padding(top = 8.dp)
                         )
@@ -101,7 +101,7 @@ fun TimerScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(48.dp))
 
             // 倒计时圆圈
             val displayTime = when (timerState) {
@@ -113,7 +113,7 @@ fun TimerScreen(
             }
 
             Box(
-                modifier = Modifier.size(280.dp),
+                modifier = Modifier.size(360.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Box(
@@ -126,19 +126,19 @@ fun TimerScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = displayTime.toString().padStart(2, '0'),
-                        fontSize = 80.sp,
+                        fontSize = 140.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color.White
                     )
                     Text(
                         text = "秒",
-                        fontSize = 20.sp,
+                        fontSize = 32.sp,
                         color = Color.White.copy(alpha = 0.8f)
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(48.dp))
 
             // 进度信息
             val currentRound = when (timerState) {
@@ -156,7 +156,7 @@ fun TimerScreen(
             ) {
                 Text(
                     text = "总进度: $currentRound / $totalRounds 轮",
-                    fontSize = 16.sp,
+                    fontSize = 24.sp,
                     color = Color.White
                 )
             }
@@ -174,61 +174,61 @@ fun TimerScreen(
                     is TimerState.Ready, is TimerState.Finished -> {
                         Button(
                             onClick = { viewModel.startTimer() },
-                            modifier = Modifier.size(80.dp)
+                            modifier = Modifier.size(120.dp)
                         ) {
-                            Text("开始")
+                            Text("开始", fontSize = 28.sp)
                         }
                     }
 
                     is TimerState.Paused -> {
                         Button(
                             onClick = { viewModel.resumeTimer() },
-                            modifier = Modifier.size(80.dp)
+                            modifier = Modifier.size(120.dp)
                         ) {
-                            Text("继续")
+                            Text("继续", fontSize = 28.sp)
                         }
 
                         Button(
                             onClick = { viewModel.resetTimer() },
-                            modifier = Modifier.size(80.dp)
+                            modifier = Modifier.size(120.dp)
                         ) {
-                            Text("重置")
+                            Text("重置", fontSize = 28.sp)
                         }
 
                         Button(
                             onClick = { viewModel.stopTimer() },
-                            modifier = Modifier.size(80.dp)
+                            modifier = Modifier.size(120.dp)
                         ) {
-                            Text("停止")
+                            Text("停止", fontSize = 28.sp)
                         }
                     }
 
                     is TimerState.Working, is TimerState.Resting, is TimerState.Countdown -> {
                         Button(
                             onClick = { viewModel.pauseTimer() },
-                            modifier = Modifier.size(80.dp)
+                            modifier = Modifier.size(120.dp)
                         ) {
-                            Text("暂停")
+                            Text("暂停", fontSize = 28.sp)
                         }
 
                         Button(
                             onClick = { viewModel.resetTimer() },
-                            modifier = Modifier.size(80.dp)
+                            modifier = Modifier.size(120.dp)
                         ) {
-                            Text("重置")
+                            Text("重置", fontSize = 28.sp)
                         }
 
                         Button(
                             onClick = { viewModel.stopTimer() },
-                            modifier = Modifier.size(80.dp)
+                            modifier = Modifier.size(120.dp)
                         ) {
-                            Text("停止")
+                            Text("停止", fontSize = 28.sp)
                         }
                     }
                 }
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(48.dp))
         }
     }
 }

@@ -156,26 +156,6 @@ fun SettingsScreen(
                     onCheckedChange = { viewModel.updateVibrateEnabled(it) }
                 )
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // 说明
-            Text(
-                text = "说明",
-                fontSize = 14.sp,
-                color = Color.Gray,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
-
-            Text(
-                text = "• 训练40秒，休息20秒，为一轮\n" +
-                        "• 默认40分钟约40轮\n" +
-                        "• 支持后台运行，有通知显示进度\n" +
-                        "• 训练开始和结束时会有语音提醒",
-                fontSize = 14.sp,
-                color = Color.Gray,
-                lineHeight = 20.sp
-            )
         }
     }
 }
