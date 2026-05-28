@@ -93,7 +93,7 @@ fun TimerScreen(
                     if (timerState is TimerState.Working || timerState is TimerState.Resting) {
                         Text(
                             text = "第 ${timerState.round} 轮",
-                            fontSize = 22.sp,
+                            fontSize = 20.sp,
                             color = Color.White.copy(alpha = 0.8f),
                             modifier = Modifier.padding(top = 8.dp)
                         )
@@ -174,55 +174,69 @@ fun TimerScreen(
                     is TimerState.Ready, is TimerState.Finished -> {
                         Button(
                             onClick = { viewModel.startTimer() },
-                            modifier = Modifier.size(120.dp)
+                            modifier = Modifier
+                                .width(110.dp)
+                                .height(70.dp)
                         ) {
-                            Text("开始", fontSize = 22.sp)
+                            Text("开始", fontSize = 20.sp)
                         }
                     }
 
                     is TimerState.Paused -> {
                         Button(
                             onClick = { viewModel.resumeTimer() },
-                            modifier = Modifier.size(120.dp)
+                            modifier = Modifier
+                                .width(110.dp)
+                                .height(70.dp)
                         ) {
-                            Text("继续", fontSize = 22.sp)
+                            Text("继续", fontSize = 20.sp)
                         }
 
                         Button(
                             onClick = { viewModel.resetTimer() },
-                            modifier = Modifier.size(120.dp)
+                            modifier = Modifier
+                                .width(110.dp)
+                                .height(70.dp)
                         ) {
-                            Text("重置", fontSize = 22.sp)
+                            Text("重置", fontSize = 20.sp)
                         }
 
                         Button(
                             onClick = { viewModel.stopTimer() },
-                            modifier = Modifier.size(120.dp)
+                            modifier = Modifier
+                                .width(110.dp)
+                                .height(70.dp)
                         ) {
-                            Text("停止", fontSize = 22.sp)
+                            Text("停止", fontSize = 20.sp)
                         }
                     }
 
                     is TimerState.Working, is TimerState.Resting, is TimerState.Countdown -> {
                         Button(
                             onClick = { viewModel.pauseTimer() },
-                            modifier = Modifier.size(120.dp)
+                            modifier = Modifier
+                                .width(110.dp)
+                                .height(70.dp)
                         ) {
-                            Text("暂停", fontSize = 22.sp)
+                            Text("暂停", fontSize = 20.sp)
                         }
 
                         Button(
                             onClick = { viewModel.resetTimer() },
-                            modifier = Modifier.size(120.dp)
+                            modifier = Modifier
+                                .width(110.dp)
+                                .height(70.dp)
                         ) {
-                            Text("重置", fontSize = 22.sp)
+                            Text("重置", fontSize = 20.sp)
                         }
 
                         Button(
                             onClick = { viewModel.stopTimer() },
-                            modifier = Modifier.size(120.dp)
+                            modifier = Modifier
+                                .width(110.dp)
+                                .height(70.dp)
                         ) {
-                            Text("停止", fontSize = 22.sp)
+                            Text("停止", fontSize = 20.sp)
                         }
                     }
                 }
