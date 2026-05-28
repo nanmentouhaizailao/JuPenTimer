@@ -93,7 +93,7 @@ fun TimerScreen(
                     if (timerState is TimerState.Working || timerState is TimerState.Resting) {
                         Text(
                             text = "第 ${timerState.round} 轮",
-                            fontSize = 28.sp,
+                            fontSize = 22.sp,
                             color = Color.White.copy(alpha = 0.8f),
                             modifier = Modifier.padding(top = 8.dp)
                         )
@@ -176,7 +176,7 @@ fun TimerScreen(
                             onClick = { viewModel.startTimer() },
                             modifier = Modifier.size(120.dp)
                         ) {
-                            Text("开始", fontSize = 28.sp)
+                            Text("开始", fontSize = 22.sp)
                         }
                     }
 
@@ -185,21 +185,21 @@ fun TimerScreen(
                             onClick = { viewModel.resumeTimer() },
                             modifier = Modifier.size(120.dp)
                         ) {
-                            Text("继续", fontSize = 28.sp)
+                            Text("继续", fontSize = 22.sp)
                         }
 
                         Button(
                             onClick = { viewModel.resetTimer() },
                             modifier = Modifier.size(120.dp)
                         ) {
-                            Text("重置", fontSize = 28.sp)
+                            Text("重置", fontSize = 22.sp)
                         }
 
                         Button(
                             onClick = { viewModel.stopTimer() },
                             modifier = Modifier.size(120.dp)
                         ) {
-                            Text("停止", fontSize = 28.sp)
+                            Text("停止", fontSize = 22.sp)
                         }
                     }
 
@@ -208,21 +208,21 @@ fun TimerScreen(
                             onClick = { viewModel.pauseTimer() },
                             modifier = Modifier.size(120.dp)
                         ) {
-                            Text("暂停", fontSize = 28.sp)
+                            Text("暂停", fontSize = 22.sp)
                         }
 
                         Button(
                             onClick = { viewModel.resetTimer() },
                             modifier = Modifier.size(120.dp)
                         ) {
-                            Text("重置", fontSize = 28.sp)
+                            Text("重置", fontSize = 22.sp)
                         }
 
                         Button(
                             onClick = { viewModel.stopTimer() },
                             modifier = Modifier.size(120.dp)
                         ) {
-                            Text("停止", fontSize = 28.sp)
+                            Text("停止", fontSize = 22.sp)
                         }
                     }
                 }
