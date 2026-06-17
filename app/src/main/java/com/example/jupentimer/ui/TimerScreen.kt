@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -64,82 +63,82 @@ fun TimerScreen(
             )
         }
     ) { paddingValues ->
-        val screenHeight = LocalConfiguration.current.screenHeightDp.dp
-        val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-        // 圆圈直径为屏幕宽度的85%，但不超过屏幕剩余高度的55%
-        val circleMaxSize = (screenHeight * 0.45f).coerceAtMost(screenWidth * 0.85f)
-
-        Column(
+        BoxWithConstraints(
             modifier = Modifier
                 .fillMaxSize()
                 .background(animatedBackgroundColor)
                 .padding(paddingValues)
                 .padding(horizontal = 12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // 状态显示 - 紧凑
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(Color.White.copy(alpha = 0.2f))
-                    .padding(horizontal = 16.dp, vertical = 10.dp),
-                contentAlignment = Alignment.Center
+            val circleSize = (maxWidth * 0.8f).coerceAtMost(maxHeight * 0.45f)
+
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = timerState.getStateName(),
-                        fontSize = 26.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.White
-                    )
-                    if (timerState is TimerState.Working || timerState is TimerState.Resting) {
-                        Text(
-                            text = "  ·  第 ${timerState.round} 轮",
-                            fontSize = 20.sp,
-                            color = Color.White.copy(alpha = 0.8f)
-                        )
-                    }
-                }
-            }
-
-            // 倒计时圆圈 - 自适应大小
-            val displayTime = when (timerState) {
-                is TimerState.Working -> timerState.remainingSeconds
-                is TimerState.Resting -> timerState.remainingSeconds
-                is TimerState.Countdown -> timerState.remainingSeconds
-                is TimerState.Paused -> timerState.remainingSeconds
-                else -> 0
-            }
-
-            Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                // 状态显示 - 紧凑
                 Box(
                     modifier = Modifier
-                        .size(circleMaxSize)
-                        .clip(CircleShape)
-                        .background(Color.White.copy(alpha = 0.2f)),
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(Color.White.copy(alpha = 0.2f))
+                        .padding(horizontal = 16.dp, vertical = 10.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center
+                    ) {
                         Text(
-                            text = displayTime.toString().padStart(2, '0'),
-                            fontSize = (circleMaxSize.value * 0.38f).sp,
+                            text = timerState.getStateName(),
+                            fontSize = 26.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color.White,
-                            textAlign = TextAlign.Center
+                            color = Color.White
                         )
-                        Text(
-                            text = "秒",
-                            fontSize = (circleMaxSize.value * 0.08f).sp,
-                            color = Color.White.copy(alpha = 0.7f)
-                        )
+                        if (timerState is TimerState.Working || timerState is TimerState.Resting) {
+                            Text(
+                                text = "  ·  第 ${timerState.round} 轮",
+                                fontSize = 20.sp,
+                                color = Color.White.copy(alpha = 0.8f)
+                            )
+                        }
                     }
                 }
-            }
+
+                // 倒计时圆圈 - 自适应
+                val displayTime = when (timerState) {
+                    is TimerState.Working -> timerState.remainingSeconds
+                    is TimerState.Resting -> timerState.remainingSeconds
+                    is TimerState.Countdown -> timerState.remainingSeconds
+                    is TimerState.Paused -> timerState.remainingSeconds
+                    else -> 0
+                }
+
+                Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
+                    Box(
+                        modifier = Modifier
+                            .size(circleSize)
+                            .clip(CircleShape)
+                            .background(Color.White.copy(alpha = 0.2f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                text = displayTime.toString().padStart(2, '0'),
+                                fontSize = (circleSize.value * 0.38f).sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                text = "秒",
+                                fontSize = (circleSize.value * 0.08f).sp,
+                                color = Color.White.copy(alpha = 0.7f)
+                            )
+                        }
+                    }
+                }
 
             // 进度信息
             val currentRound = when (timerState) {
@@ -230,6 +229,7 @@ fun TimerScreen(
                     }
                 }
             }
+        }
         }
     }
 }
