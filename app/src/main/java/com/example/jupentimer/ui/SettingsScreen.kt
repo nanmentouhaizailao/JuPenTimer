@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -18,6 +20,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
@@ -25,13 +28,16 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.jupentimer.data.TimerSettings
@@ -96,11 +102,12 @@ fun SettingsScreen(
 
                 Divider(modifier = Modifier.padding(vertical = 8.dp))
 
-                // 总时长
-                SliderSettingItem(
+                // 总时长 - 支持手动输入和5分钟步进
+                TotalTimeSettingItem(
                     title = "总时长",
                     value = settings.totalMinutes,
                     range = 5..60,
+                    step = 5,
                     unit = "分钟",
                     onValueChange = { viewModel.updateTotalMinutes(it) }
                 )
@@ -219,6 +226,82 @@ fun SliderSettingItem(
             steps = (range.last - range.first) / 5 - 1,
             modifier = Modifier.padding(top = 8.dp)
         )
+    }
+}
+
+@Composable
+fun TotalTimeSettingItem(
+    title: String,
+    value: Int,
+    range: IntRange,
+    step: Int,
+    unit: String,
+    onValueChange: (Int) -> Unit
+) {
+    var textFieldValue by remember(value) { mutableStateOf(value.toString()) }
+
+    Column(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = title,
+                fontSize = 16.sp,
+                color = Color.Black
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = "$value $unit",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF2196F3)
+            )
+        }
+
+        // 滑块：5分钟步进
+        Slider(
+            value = value.toFloat(),
+            onValueChange = {
+                val snapped = (it / step).toInt() * step
+                onValueChange(snapped.coerceIn(range.first, range.last))
+            },
+            valueRange = range.first.toFloat()..range.last.toFloat(),
+            steps = (range.last - range.first) / step - 1,
+            modifier = Modifier.padding(top = 8.dp)
+        )
+
+        // 手动输入
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "手动输入:",
+                fontSize = 14.sp,
+                color = Color.Gray
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            OutlinedTextField(
+                value = textFieldValue,
+                onValueChange = { newValue ->
+                    val filtered = newValue.filter { it.isDigit() }
+                    textFieldValue = filtered
+                    val num = filtered.toIntOrNull()
+                    if (num != null && num in range) {
+                        onValueChange(num)
+                    }
+                },
+                modifier = Modifier.width(100.dp),
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                label = { Text("分钟") }
+            )
+        }
     }
 }
 
