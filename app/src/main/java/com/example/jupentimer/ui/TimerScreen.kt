@@ -126,14 +126,14 @@ fun TimerScreen(
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
                                 text = displayTime.toString().padStart(2, '0'),
-                                fontSize = (circleSize.value * 0.38f).sp,
+                                fontSize = 120.sp,
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White,
                                 textAlign = TextAlign.Center
                             )
                             Text(
                                 text = "秒",
-                                fontSize = (circleSize.value * 0.08f).sp,
+                                fontSize = 28.sp,
                                 color = Color.White.copy(alpha = 0.7f)
                             )
                         }
